@@ -3,15 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-// SupportSection.jsx
-// Props:
-//  - images: { big: string, small: string }
-// Example: <SupportSection images={{ big: '/assets/elderly.jpg', small: '/assets/nurse.jpg' }} />
-
 export default function SupportSection({ images = {} }) {
-  const big = images.big || "/images/support-big.jpg";
-  const small = images.small || "/images/support-small.jpg";
-
   const contacts = [
     {
       phone: "+1(289) 407 2788",

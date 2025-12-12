@@ -4,61 +4,7 @@
   --background: #ffffff;
   --foreground: #171717;
 }
-.liquidGlass-wrapper {
-  position: relative;
-  display: inline-flex;
-  overflow: hidden;
-  font-weight: 600;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  border-radius: 35px;
-  transition: transform 0.3s ease-in-out;
 
-
-}
-
-.liquidGlass-effect {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  backdrop-filter: blur(1px);
-  filter: url(#glass-distortion);
-  border-radius: 35px;
-
-}
-
-.liquidGlass-tint {
-  position: absolute;
-  inset: 0;
-  background: #ffffff0e;
-  z-index: 1;
-  border-radius: 35px;
-
-
-}
-
-.liquidGlass-shine {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  box-shadow: inset 1px 1px 1px rgba(255, 255, 255, 0.5),
-    inset -1px -1px 1px rgba(255, 255, 255, 0.119);
-  border-radius: 35px;
-
-}
-
-.liquidGlass-content {
-  position: relative;
-  z-index: 44;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-}
-
-.liquidGlass-wrapper:hover{
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  transform: scale(1.1);
-}
 
 @theme inline {
   --color-background: var(--background);
@@ -79,5 +25,86 @@ body {
   background: url(../assets/images/log-bg.png);
   background-size: cover;
   background-position: top;
+}
 
+.semi-gradient-circle {
+  position: relative;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.semi-gradient-circle::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  padding: 2px; /* border thickness */
+  background: linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.6),
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.6)
+  );
+
+  /* mask: show ONLY top half of the border */
+  mask:
+    radial-gradient(circle at 50% 100%, transparent 60%, black 61%) /* bottom hidden */;
+  
+  -webkit-mask:
+    radial-gradient(circle at 50% 100%, transparent 60%, black 61%);
+  
+  pointer-events: none;
+}
+
+
+
+.liquidGlass-wrapper {
+  position: relative;
+  display: inline-flex;
+  overflow: hidden;
+  font-weight: 600;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  transition: transform 0.3s ease-in-out;
+
+
+}
+
+.liquidGlass-effect {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  backdrop-filter: blur(1px);
+  filter: url(#glass-distortion);
+
+}
+
+.liquidGlass-tint {
+  position: absolute;
+  inset: 0;
+  background: #ffffff0e;
+  z-index: 1;
+
+
+}
+
+.liquidGlass-shine {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  box-shadow: inset 1px 1px 1px #ffffff80, inset -1px -1px 0px #ffffff4d;
+
+}
+
+.liquidGlass-content {
+  position: relative;
+  z-index: 44;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.liquidGlass-wrapper:hover{
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  transform: scale(1.02);
 }
