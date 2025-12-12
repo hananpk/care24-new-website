@@ -19,7 +19,6 @@ export default function Footer() {
           <div>
             <div className="flex items-center">
               <div className="w-40 h-40 relative">
-                {/* Example: use your Image component / asset */}
                 <Image
                   src={IMAGES.logo}
                   alt="Care24"
