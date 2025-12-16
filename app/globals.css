@@ -22,39 +22,11 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
-  background: url(../assets/images/log-bg.png);
+  background: url(/assets/images/home-bg.svg);
   background-size: cover;
   background-position: top;
 }
 
-.semi-gradient-circle {
-  position: relative;
-  border-radius: 9999px;
-  overflow: hidden;
-}
-
-.semi-gradient-circle::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 9999px;
-  padding: 2px; /* border thickness */
-  background: linear-gradient(
-    -45deg,
-    rgba(255, 255, 255, 0.6),
-    rgba(255, 255, 255, 0.1),
-    rgba(255, 255, 255, 0.6)
-  );
-
-  /* mask: show ONLY top half of the border */
-  mask:
-    radial-gradient(circle at 50% 100%, transparent 60%, black 61%) /* bottom hidden */;
-  
-  -webkit-mask:
-    radial-gradient(circle at 50% 100%, transparent 60%, black 61%);
-  
-  pointer-events: none;
-}
 
 
 
@@ -73,7 +45,7 @@ body {
   position: absolute;
   inset: 0;
   z-index: 0;
-  backdrop-filter: blur(1px);
+  backdrop-filter: blur(1px) saturate(180%);
   filter: url(#glass-distortion);
 
 }
@@ -91,7 +63,8 @@ body {
   position: absolute;
   inset: 0;
   z-index: 2;
-  box-shadow: inset 1px 1px 1px #ffffff80, inset -1px -1px 0px #ffffff4d;
+  box-shadow: inset 1px 1px 1px #ffffff28, inset -1px -1px 0px #ffffff15;
+
 
 }
 
@@ -108,3 +81,4 @@ body {
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   transform: scale(1.02);
 }
+

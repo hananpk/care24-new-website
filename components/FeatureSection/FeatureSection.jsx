@@ -5,32 +5,6 @@ import { LiquidGlass } from "@liquidglass/react";
 import Image from "next/image";
 import React from "react";
 
-const FEATURES = [
-  {
-    title: "24 X 7 Customer Service",
-    description: "Care24 office in Niagara Region is available to help 24/7.",
-    icon: IMAGES.customer_care,
-  },
-  {
-    title: "Top Quality Management",
-    description:
-      "Care24 management approach to long term success through Customer satisfaction.",
-    icon: IMAGES.top_quality,
-  },
-  {
-    title: "Compassionate and Dedicated Care",
-    description:
-      "Our best care is revealed through the smallest acts of kindness.",
-    icon: IMAGES.dedicated_care,
-  },
-  {
-    title: "Professional Care providers",
-    description:
-      "Care24 ensures consistency of quality through highly qualified health care workers.",
-    icon: IMAGES.care_provider,
-  },
-];
-
 const FeatureCard = ({ feature }) => {
   return (
     // card wrapper sets the card's min height so all cards match
@@ -70,19 +44,25 @@ const FeatureCard = ({ feature }) => {
   );
 };
 
-const FeatureSection = () => {
+const FeatureSection = ({ features, heading, description }) => {
   return (
     <section className="py-16">
       <div className="max-w-6xl mx-auto px-4">
-        <h3 className="font-bold text-3xl mb-2 text-center text-white">
-          Happy 10000+ people
-        </h3>
-        <p className="text-gray-100 text-center text-xl mb-8">
-          We are here to oversee your Health with
-        </p>
+        {heading && (
+          <div>
+            <h3 className="font-bold text-3xl mb-2 text-center text-white">
+              {heading}
+            </h3>
+            <p className="text-gray-100 text-center text-xl mb-8">
+              {description}
+            </p>
+          </div>
+        )}
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-          {FEATURES.map((feature, i) => (
+        <div
+          className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-${features?.length} gap-6`}
+        >
+          {features?.map((feature, i) => (
             <FeatureCard key={i} feature={feature} />
           ))}
         </div>
