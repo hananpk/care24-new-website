@@ -8,9 +8,9 @@ import { usePathname } from "next/navigation";
 import { LiquidGlass } from "@liquidglass/react";
 import { TfiAngleRight } from "react-icons/tfi";
 import { HiMenu, HiX } from "react-icons/hi";
+import { motion } from "framer-motion";
 
 const servicesData = [
-  // "Home Health Care",
   "Palliative Care",
   "Respite Care",
   "In Home Child Care",
@@ -23,25 +23,49 @@ const servicesData = [
   "Way to Volunteers",
 ];
 
+const headerVariants = {
+  hidden: {
+    y: -80,
+    opacity: 0,
+  },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.45,
+      ease: "easeOut",
+    },
+  },
+};
+
 const Header = () => {
   const pathname = usePathname();
 
   const [isServicesHovered, setIsServicesHovered] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 100);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     const handler = () => {
       if (window.innerWidth >= 768) {
         setMobileMenuOpen(false);
         setMobileServicesOpen(false);
+        document.body.classList.remove("overflow-hidden");
       }
     };
     window.addEventListener("resize", handler);
     return () => window.removeEventListener("resize", handler);
   }, []);
 
-  // Auto open services accordion when on services page
   useEffect(() => {
     if (pathname.startsWith("/services")) {
       setMobileServicesOpen(true);
@@ -50,6 +74,17 @@ const Header = () => {
 
   const isActive = (path) => pathname === path;
   const isServicesActive = pathname.startsWith("/services");
+
+  const getServicePath = (service) =>
+    `/services/${service
+      .toLowerCase()
+      .replace(/ & /g, "-")
+      .replace(/ /g, "-")}`;
+
+  const handleMobileMenu = () => {
+    setMobileMenuOpen((s) => !s);
+    document.body.classList.toggle("overflow-hidden");
+  };
 
   const getColumns = (data) => {
     const half = Math.ceil(data.length / 2);
@@ -61,18 +96,7 @@ const Header = () => {
 
   const { col1, col2 } = getColumns(servicesData);
 
-  const handleMobileMenu = () => {
-    setMobileMenuOpen((s) => !s);
-    document.body.classList.toggle("overflow-hidden");
-  };
-
-  const getServicePath = (service) =>
-    `/services/${service
-      .toLowerCase()
-      .replace(/ & /g, "-")
-      .replace(/ /g, "-")}`;
-
-  /* -------------------- Desktop Mega Menu -------------------- */
+  /* ---------------- Desktop Mega Menu ---------------- */
   const MegaMenu = () => (
     <div
       className="hidden md:block absolute top-full left-1/2 -translate-x-1/2 pt-4 w-[600px] rounded-3xl border border-gray-200/30 shadow-xl z-40"
@@ -100,9 +124,7 @@ const Header = () => {
                       : "border-transparent hover:border-[#49bad9]/10 hover:text-[#49bad9]"
                   }`}
                 >
-                  <Link href={path} className="block">
-                    {service}
-                  </Link>
+                  <Link href={path}>{service}</Link>
                 </div>
               );
             })}
@@ -113,10 +135,19 @@ const Header = () => {
   );
 
   return (
-    <header className="w-full absolute top-0 left-0 right-0 z-[99999]">
+    <motion.header
+      variants={headerVariants}
+      initial={false}
+      animate={isScrolled ? "visible" : "visible"}
+      className={`w-full z-[99999] transition-all ${
+        isScrolled
+          ? "fixed top-0 left-0 right-0 backdrop-blur-xl border-b border-white/10 shadow-lg"
+          : "absolute top-0 left-0 right-0"
+      }`}
+    >
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          {/* Logo */}
+          {/* LOGO */}
           <Link href="/" aria-label="Home">
             <div className="w-[120px] h-[40px] relative">
               <Image
@@ -124,18 +155,18 @@ const Header = () => {
                 alt="logo"
                 fill
                 priority
-                style={{ objectFit: "contain" }}
+                className="object-contain"
               />
             </div>
           </Link>
 
-          {/* Desktop nav */}
+          {/* DESKTOP NAV */}
           <nav className="hidden md:block">
             <ul className="flex items-center gap-8 text-white">
               <li>
                 <Link
                   href="/"
-                  className={`transition ${
+                  className={`${
                     isActive("/") ? "text-[#49bad9]" : "hover:text-[#49bad9]"
                   }`}
                 >
@@ -149,7 +180,7 @@ const Header = () => {
                 onMouseLeave={() => setIsServicesHovered(false)}
               >
                 <button
-                  className={`flex items-center gap-2 transition ${
+                  className={`flex items-center gap-2 ${
                     isServicesActive ? "text-[#49bad9]" : "hover:text-[#49bad9]"
                   }`}
                 >
@@ -161,7 +192,7 @@ const Header = () => {
               <li>
                 <Link
                   href="/about"
-                  className={`transition ${
+                  className={`${
                     isActive("/about")
                       ? "text-[#49bad9]"
                       : "hover:text-[#49bad9]"
@@ -174,7 +205,7 @@ const Header = () => {
               <li>
                 <Link
                   href="/careers"
-                  className={`transition ${
+                  className={`${
                     isActive("/careers")
                       ? "text-[#49bad9]"
                       : "hover:text-[#49bad9]"
@@ -187,7 +218,7 @@ const Header = () => {
               <li>
                 <Link
                   href="/contact"
-                  className={`transition ${
+                  className={`${
                     isActive("/contact")
                       ? "text-[#49bad9]"
                       : "hover:text-[#49bad9]"
@@ -199,13 +230,13 @@ const Header = () => {
             </ul>
           </nav>
 
-          {/* Desktop CTA */}
+          {/* DESKTOP CTA */}
           <div className="hidden md:flex">
             <LiquidGlass
               borderRadius={200}
               elasticity={1}
-              className="border-2 border-white/10 hover:scale-[1.03]"
               blur={2}
+              className="border-2 border-white/10 hover:scale-[1.03]"
             >
               <Link href="/" className="px-6 py-2 text-white flex items-center">
                 Appointment <TfiAngleRight className="ml-2" />
@@ -213,24 +244,23 @@ const Header = () => {
             </LiquidGlass>
           </div>
 
-          {/* Mobile menu button */}
+          {/* MOBILE MENU BUTTON */}
           <button
             className="md:hidden text-white relative z-10"
-            onClick={() => handleMobileMenu()}
+            onClick={handleMobileMenu}
           >
             {mobileMenuOpen ? <HiX size={22} /> : <HiMenu size={22} />}
           </button>
         </div>
       </div>
 
-      {/* -------------------- Mobile Menu -------------------- */}
+      {/* ---------------- MOBILE MENU ---------------- */}
       <div
         className={`md:hidden fixed inset-x-0 top-0 bg-[#012b5e] h-screen text-white transition-all pt-16 ${
           mobileMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
       >
         <div className="px-4 py-4 space-y-2">
-          {/* Home */}
           <Link
             href="/"
             onClick={() => setMobileMenuOpen(false)}
@@ -243,7 +273,7 @@ const Header = () => {
             Home
           </Link>
 
-          {/* Services Accordion */}
+          {/* SERVICES ACCORDION */}
           <button
             onClick={() => setMobileServicesOpen((s) => !s)}
             className="w-full flex items-center justify-between px-3 py-2 rounded-md hover:bg-white/5"
@@ -251,7 +281,7 @@ const Header = () => {
             <span
               className={`${
                 isServicesActive ? "text-[#49bad9]" : "text-white"
-              } text-md`}
+              }`}
             >
               Services
             </span>
@@ -263,7 +293,7 @@ const Header = () => {
           </button>
 
           {mobileServicesOpen && (
-            <div className="ml-3 mt-1 space-y-1">
+            <div className="ml-3 space-y-1">
               {servicesData.map((service) => {
                 const path = getServicePath(service);
                 return (
@@ -273,8 +303,9 @@ const Header = () => {
                     onClick={() => {
                       setMobileMenuOpen(false);
                       setMobileServicesOpen(false);
+                      document.body.classList.remove("overflow-hidden");
                     }}
-                    className={`block px-3 py-2 rounded-md text-md ${
+                    className={`block px-3 py-2 rounded-md ${
                       pathname === path
                         ? "text-[#49bad9] bg-white/5"
                         : "hover:bg-white/5"
@@ -287,7 +318,6 @@ const Header = () => {
             </div>
           )}
 
-          {/* Other Links */}
           {["/about", "/careers", "/contact"].map((path) => (
             <Link
               key={path}
@@ -298,14 +328,13 @@ const Header = () => {
                   ? "text-[#49bad9] bg-white/5"
                   : "hover:bg-white/5"
               }`}
-              style={{ textTransform: "capitalize" }}
             >
               {path.replace("/", "")}
             </Link>
           ))}
         </div>
       </div>
-    </header>
+    </motion.header>
   );
 };
 
