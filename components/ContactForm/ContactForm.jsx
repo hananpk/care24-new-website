@@ -6,9 +6,6 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
 
-/* ----------------------------------
-   Animations (unchanged)
----------------------------------- */
 const fadeUp = {
   hidden: { opacity: 0, y: 30, filter: "blur(10px)" },
   show: {
@@ -37,9 +34,6 @@ const stagger = {
   },
 };
 
-/* ----------------------------------
-   Regex Patterns
----------------------------------- */
 const regex = {
   name: /^[a-zA-Z\s.'-]{2,50}$/,
   email: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
@@ -47,9 +41,6 @@ const regex = {
   message: /^.{10,500}$/,
 };
 
-/* ----------------------------------
-   Component
----------------------------------- */
 const ContactForm = () => {
   const API_URL = "https://backend.care24inc.ca/api/v1/contact-form/";
 
@@ -64,9 +55,6 @@ const ContactForm = () => {
   const [status, setStatus] = useState({ message: "", type: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  /* ----------------------------------
-     Validation
-  ---------------------------------- */
   const validate = () => {
     const newErrors = {};
 
@@ -91,9 +79,6 @@ const ContactForm = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  /* ----------------------------------
-     Handlers
-  ---------------------------------- */
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -144,9 +129,6 @@ const ContactForm = () => {
     }
   };
 
-  /* ----------------------------------
-     UI
-  ---------------------------------- */
   return (
     <section className="relative min-h-screen py-16 px-6 lg:px-24 flex items-center overflow-hidden">
       <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -193,7 +175,6 @@ const ContactForm = () => {
           )}
 
           <motion.form onSubmit={handleSubmit} className="space-y-6">
-            {/* NAME */}
             <Input
               label="Name *"
               name="name"
@@ -202,7 +183,6 @@ const ContactForm = () => {
               error={errors.name}
             />
 
-            {/* EMAIL */}
             <Input
               label="Email *"
               name="email"
@@ -212,7 +192,6 @@ const ContactForm = () => {
               error={errors.email}
             />
 
-            {/* PHONE */}
             <Input
               label="Phone *"
               name="phone"
@@ -221,7 +200,6 @@ const ContactForm = () => {
               error={errors.phone}
             />
 
-            {/* MESSAGE */}
             <motion.div variants={fadeUp} className="space-y-2">
               <label className="text-sm font-medium">Message *</label>
               <textarea
