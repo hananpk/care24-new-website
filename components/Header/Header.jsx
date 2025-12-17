@@ -10,7 +10,7 @@ import { TfiAngleRight } from "react-icons/tfi";
 import { HiMenu, HiX } from "react-icons/hi";
 
 const servicesData = [
-  "Home Health Care",
+  // "Home Health Care",
   "Palliative Care",
   "Respite Care",
   "In Home Child Care",
@@ -20,7 +20,7 @@ const servicesData = [
   "Nursing & Medical Care",
   "Home Isolation Patient Management",
   "In Service Education",
-  "Volunteers",
+  "Way to Volunteers",
 ];
 
 const Header = () => {
@@ -41,6 +41,13 @@ const Header = () => {
     return () => window.removeEventListener("resize", handler);
   }, []);
 
+  // Auto open services accordion when on services page
+  useEffect(() => {
+    if (pathname.startsWith("/services")) {
+      setMobileServicesOpen(true);
+    }
+  }, [pathname]);
+
   const isActive = (path) => pathname === path;
   const isServicesActive = pathname.startsWith("/services");
 
@@ -54,12 +61,18 @@ const Header = () => {
 
   const { col1, col2 } = getColumns(servicesData);
 
+  const handleMobileMenu = () => {
+    setMobileMenuOpen((s) => !s);
+    document.body.classList.toggle("overflow-hidden");
+  };
+
   const getServicePath = (service) =>
     `/services/${service
       .toLowerCase()
       .replace(/ & /g, "-")
       .replace(/ /g, "-")}`;
 
+  /* -------------------- Desktop Mega Menu -------------------- */
   const MegaMenu = () => (
     <div
       className="hidden md:block absolute top-full left-1/2 -translate-x-1/2 pt-4 w-[600px] rounded-3xl border border-gray-200/30 shadow-xl z-40"
@@ -202,22 +215,80 @@ const Header = () => {
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden text-white"
-            onClick={() => setMobileMenuOpen((s) => !s)}
+            className="md:hidden text-white relative z-10"
+            onClick={() => handleMobileMenu()}
           >
             {mobileMenuOpen ? <HiX size={22} /> : <HiMenu size={22} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* -------------------- Mobile Menu -------------------- */}
       <div
-        className={`md:hidden fixed inset-x-0 top-[64px] bg-[#012b5e] text-white transition-all ${
+        className={`md:hidden fixed inset-x-0 top-0 bg-[#012b5e] h-screen text-white transition-all pt-16 ${
           mobileMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
       >
         <div className="px-4 py-4 space-y-2">
-          {["/", "/about", "/careers", "/contact"].map((path) => (
+          {/* Home */}
+          <Link
+            href="/"
+            onClick={() => setMobileMenuOpen(false)}
+            className={`block px-3 py-2 rounded-md ${
+              pathname === "/"
+                ? "text-[#49bad9] bg-white/5"
+                : "hover:bg-white/5"
+            }`}
+          >
+            Home
+          </Link>
+
+          {/* Services Accordion */}
+          <button
+            onClick={() => setMobileServicesOpen((s) => !s)}
+            className="w-full flex items-center justify-between px-3 py-2 rounded-md hover:bg-white/5"
+          >
+            <span
+              className={`${
+                isServicesActive ? "text-[#49bad9]" : "text-white"
+              } text-md`}
+            >
+              Services
+            </span>
+            <TfiAngleRight
+              className={`transition-transform ${
+                mobileServicesOpen ? "rotate-90" : ""
+              }`}
+            />
+          </button>
+
+          {mobileServicesOpen && (
+            <div className="ml-3 mt-1 space-y-1">
+              {servicesData.map((service) => {
+                const path = getServicePath(service);
+                return (
+                  <Link
+                    key={service}
+                    href={path}
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      setMobileServicesOpen(false);
+                    }}
+                    className={`block px-3 py-2 rounded-md text-md ${
+                      pathname === path
+                        ? "text-[#49bad9] bg-white/5"
+                        : "hover:bg-white/5"
+                    }`}
+                  >
+                    {service}
+                  </Link>
+                );
+              })}
+            </div>
+          )}
+
+          {/* Other Links */}
+          {["/about", "/careers", "/contact"].map((path) => (
             <Link
               key={path}
               href={path}
@@ -227,8 +298,9 @@ const Header = () => {
                   ? "text-[#49bad9] bg-white/5"
                   : "hover:bg-white/5"
               }`}
+              style={{ textTransform: "capitalize" }}
             >
-              {path === "/" ? "Home" : path.replace("/", "").toUpperCase()}
+              {path.replace("/", "")}
             </Link>
           ))}
         </div>

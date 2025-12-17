@@ -35,7 +35,7 @@ export default function Home() {
         }}
       >
         <div>
-          <h2 className="text-center text-4xl mb-2 font-bold text-white">
+          <h2 className="text-center text-3xl px-10 md:text-4xl mb-2 font-bold text-white">
             We are here to oversee your Health with
           </h2>
         </div>

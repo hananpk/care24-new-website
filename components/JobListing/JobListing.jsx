@@ -4,7 +4,7 @@ import { LiquidGlass } from "@liquidglass/react";
 
 const JobCard = ({ title, tags, details, highlighted = false }) => (
   <div
-    className={`relative p-6 rounded-3xl border transition-all duration-300 ${"bg-white/5 border-white/10 hover:border-white/20"} backdrop-blur-md`}
+    className={`relative p-6 rounded-3xl border transition-all duration-300 ${"bg-white/5 border-white/10 hover:border-white/20"} backdrop-blur-sm saturate-120`}
   >
     {/* Card Header */}
     <div className="flex justify-between items-start mb-6">
@@ -50,7 +50,7 @@ const JobCard = ({ title, tags, details, highlighted = false }) => (
 
     {/* Footer Description */}
     <div className="pt-4 border-t border-white/10">
-      <p className="text-gray-400 text-sm leading-relaxed mb-4">
+      <p className="text-gray-200 text-sm leading-relaxed mb-4">
         Provide patient care, administer medications, and collaborate with
         physicians in a supportive clinical environment.
       </p>
@@ -103,7 +103,7 @@ const JobListings = () => {
           <h2 className="text-3xl md:text-4xl font-bold text-white">
             Easily apply to multiple jobs with one click!
           </h2>
-          <p className="text-gray-400 max-w-2xl mx-auto">
+          <p className="text-gray-200 max-w-2xl mx-auto">
             Browse open roles and apply instantly to positions that match your
             skills.
           </p>
