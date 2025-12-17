@@ -1,13 +1,17 @@
 "use client";
 
 import { IMAGES } from "@/lib/assets";
-import { LiquidGlass } from "@liquidglass/react";
 import Image from "next/image";
 import React from "react";
+import dynamic from "next/dynamic";
+
+const LiquidGlass = dynamic(
+  () => import("@liquidglass/react").then((mod) => mod.LiquidGlass),
+  { ssr: false }
+);
 
 const FeatureCard = ({ feature }) => {
   return (
-    // card wrapper sets the card's min height so all cards match
     <div className="w-full">
       <LiquidGlass
         borderRadius={20}
@@ -45,6 +49,7 @@ const FeatureCard = ({ feature }) => {
 };
 
 const FeatureSection = ({ features, heading, description }) => {
+  const gridCols = features.length >= 4 ? "md:grid-cols-4" : "md:grid-cols-3";
   return (
     <section className="py-16">
       <div className="max-w-6xl mx-auto px-4">
@@ -59,9 +64,7 @@ const FeatureSection = ({ features, heading, description }) => {
           </div>
         )}
 
-        <div
-          className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-${features?.length} gap-6`}
-        >
+        <div className={`grid grid-cols-1 sm:grid-cols-2 ${gridCols} gap-6`}>
           {features?.map((feature, i) => (
             <FeatureCard key={i} feature={feature} />
           ))}

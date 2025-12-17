@@ -2,7 +2,6 @@ import React from "react";
 
 const LiquidGlass = ({ children, className = "", radius = 35 }) => {
   const borderRadius = typeof radius === "number" ? `${radius}px` : radius;
-  console.log(borderRadius);
   return (
     <>
       <div
