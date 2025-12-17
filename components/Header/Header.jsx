@@ -238,7 +238,10 @@ const Header = () => {
               blur={2}
               className="border-2 border-white/10 hover:scale-[1.03]"
             >
-              <Link href="/" className="px-6 py-2 text-white flex items-center">
+              <Link
+                href="/contact"
+                className="px-6 py-2 text-white flex items-center"
+              >
                 Appointment <TfiAngleRight className="ml-2" />
               </Link>
             </LiquidGlass>
