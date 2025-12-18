@@ -123,6 +123,9 @@ const Header = () => {
                       ? "border-[#49bad9]/30 text-[#49bad9]"
                       : "border-transparent hover:border-[#49bad9]/10 hover:text-[#49bad9]"
                   }`}
+                  onClick={() => {
+                    setIsServicesHovered(false);
+                  }}
                 >
                   <Link href={path}>{service}</Link>
                 </div>
