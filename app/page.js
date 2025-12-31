@@ -3,10 +3,12 @@ import AppointmentSection from "@/components/AppointmentSection/AppointmentSecti
 import CoreSectionStacked from "@/components/CoreSection/CoreSection";
 import FAQSection from "@/components/FAQSection/FAQSection";
 import FeatureSection from "@/components/FeatureSection/FeatureSection";
+import Loader from "@/components/Loader/Loader";
 import Spotlight from "@/components/Spotlight/Spotlight";
 import SupportSection from "@/components/SupportSection/SupportSection";
 import Testimonial from "@/components/Testimonial/Testimonial";
 import { IMAGES } from "@/lib/assets";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const FEATURES = [
@@ -34,6 +36,20 @@ export default function Home() {
       icon: IMAGES.care_provider,
     },
   ];
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000); // 2 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <>

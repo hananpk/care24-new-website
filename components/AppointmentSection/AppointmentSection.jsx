@@ -61,7 +61,6 @@ export default function AppointmentSection() {
                    border border-white/10 p-10 backdrop-blur-sm"
       >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-          {/* LEFT CONTENT */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
